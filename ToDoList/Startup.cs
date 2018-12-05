@@ -6,10 +6,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ToDoList.Dtos;
+using ToDoList.Models;
+using ToDoList.Repositories;
 
 namespace ToDoList
 {
@@ -26,10 +30,16 @@ namespace ToDoList
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            var connectionString = Configuration["connectionString:toDoListDBConnectionString"];
+            services.AddDbContext<TasksContext>(o => o.UseSqlServer(connectionString));
+
+            services.AddScoped<IToDoListRepository, ToDoListRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, TasksContext tasksContext)
         {
             if (env.IsDevelopment())
             {
@@ -40,8 +50,18 @@ namespace ToDoList
                 app.UseHsts();
             }
 
+            tasksContext.SeedData();
+
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Day, DayDto>();
+                cfg.CreateMap<ToDoItem, ToDoItemDto>();
+            });
+
             app.UseHttpsRedirection();
             app.UseMvc();
+
+
         }
     }
 }
