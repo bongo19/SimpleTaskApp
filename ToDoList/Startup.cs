@@ -31,9 +31,9 @@ namespace ToDoList
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var connectionString = Configuration["connectionString:toDoListDBConnectionString"];
+            var connectionString = Configuration["connectionStrings:toDoListDBConnectionString"];
             services.AddDbContext<TasksContext>(o => o.UseSqlServer(connectionString));
-
+            
             services.AddScoped<IToDoListRepository, ToDoListRepository>();
 
         }

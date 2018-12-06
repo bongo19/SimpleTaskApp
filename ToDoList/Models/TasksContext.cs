@@ -14,7 +14,7 @@ namespace ToDoList.Models
             Database.Migrate();
         }
 
-        public DbSet<ToDoItem> Tasks { get; set; }
+        public DbSet<ToDoItem> ToDoItems { get; set; }
         public DbSet<Day> Days { get; set; }
     }
 }

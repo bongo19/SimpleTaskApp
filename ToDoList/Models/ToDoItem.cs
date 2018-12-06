@@ -17,7 +17,8 @@ namespace ToDoList.Models
         [MaxLength(500)]
         public string TaskDescription { get; set; }
 
-        public int TaskDay { get; set; }
+        public Day Day { get; set; }
+        public int DayId { get; set; }
 
         public bool IsCompleted { get; set; }
     }

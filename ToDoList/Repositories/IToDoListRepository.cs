@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToDoList.Models;
 
 namespace ToDoList.Repositories
 {
     public interface IToDoListRepository
     {
-        void GetAllDays();
+        IEnumerable<Day> GetAllDays();
 
-        void GetDay();
+        Day GetDay(int id);
 
         void GetAllTasks();
 
-        void GetTask();
+        void GetTask(int dayId, Guid id);
 
-        void DeleteTask();
+        void DeleteTask(Guid id);
 
-        void AddTask();
+        void AddTask(int dayId);
 
         void Save();
 
-        void UpdateTask();
+        void UpdateTask(int dayId);
 
-        void PartiallyUpdateTask();
+        void PartiallyUpdateTask(int dayId);
 
-        void FilterTasksForDay();
+        void FilterTasksForDay(int dayId);
 
         void FilterAllTasks();
     }

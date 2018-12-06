@@ -14,6 +14,6 @@ namespace ToDoList.Models
         [MaxLength(25)]
         public string TaskDay { get; set; }
 
-        public ICollection<ToDoItem> Tasks { get; set; } = new List<ToDoItem>();
+        public ICollection<ToDoItem> ToDoItems { get; set; } = new List<ToDoItem>();
     }
 }
