@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ToDoList.Models;
 
 namespace ToDoList.Repositories
@@ -15,32 +15,18 @@ namespace ToDoList.Repositories
             _tasksContext = tasksContext;
         }
 
-        public void AddTask()
+        public void AddTask(int dayId, ToDoItem toDoItem)
         {
-            throw new NotImplementedException();
+            toDoItem.DayId = dayId;
+            _tasksContext.ToDoItems.Add(toDoItem);
         }
 
-        public void AddTask(int dayId)
+        public void DeleteTask(ToDoItem toDoItem)
         {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteTask()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteTask(Guid id)
-        {
-            throw new NotImplementedException();
+            _tasksContext.ToDoItems.Remove(toDoItem);
         }
 
         public void FilterAllTasks()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void FilterTasksForDay()
         {
             throw new NotImplementedException();
         }
@@ -55,49 +41,24 @@ namespace ToDoList.Repositories
             return _tasksContext.Days.ToList();
         }
 
-        public void GetAllTasks()
+        public List<ToDoItem> GetAllTasks()
         {
-            throw new NotImplementedException();
+            return _tasksContext.ToDoItems.ToList();
         }
 
         public Day GetDay(int id)
         {
-            throw new NotImplementedException();
+            return _tasksContext.Days.Include(t => t.ToDoItems).Where(d => d.Id == id).FirstOrDefault();
         }
 
-        public void GetTask()
+        public ToDoItem GetTask(Guid id)
         {
-            throw new NotImplementedException();
+            return _tasksContext.ToDoItems.FirstOrDefault(x => x.Id == id);
         }
 
-        public void GetTask(int dayId, Guid id)
+        public bool SaveTask()
         {
-            throw new NotImplementedException();
-        }
-
-        public void PartiallyUpdateTask()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PartiallyUpdateTask(int dayId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateTask()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateTask(int dayId)
-        {
-            throw new NotImplementedException();
+            return (_tasksContext.SaveChanges() > 0);
         }
     }
 }

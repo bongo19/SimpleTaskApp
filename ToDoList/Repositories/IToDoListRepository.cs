@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ToDoList.Models;
 
 namespace ToDoList.Repositories
@@ -12,19 +10,15 @@ namespace ToDoList.Repositories
 
         Day GetDay(int id);
 
-        void GetAllTasks();
+        List<ToDoItem> GetAllTasks();
 
-        void GetTask(int dayId, Guid id);
+        ToDoItem GetTask(Guid id);
 
-        void DeleteTask(Guid id);
+        void DeleteTask(ToDoItem toDoItem);
 
-        void AddTask(int dayId);
+        void AddTask(int dayId, ToDoItem toDoItem);
 
-        void Save();
-
-        void UpdateTask(int dayId);
-
-        void PartiallyUpdateTask(int dayId);
+        bool SaveTask();
 
         void FilterTasksForDay(int dayId);
 
