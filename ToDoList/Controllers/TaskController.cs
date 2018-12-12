@@ -8,7 +8,7 @@ using ToDoList.Repositories;
 
 namespace ToDoList.Controllers
 {
-    [Route("api/days")]
+    [Route("api/day")]
     public class TaskController : Controller
     {
         private readonly IToDoListRepository _toDoListRepository;
@@ -25,9 +25,9 @@ namespace ToDoList.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteTaskById(Guid id)
+        public IActionResult DeleteTaskById(ToDoItem toDoItem)
         {
-            _toDoListRepository.DeleteTask(id);
+            _toDoListRepository.DeleteTask(toDoItem);
             
             if(!_toDoListRepository.SaveTask())
             {

@@ -33,7 +33,7 @@ namespace ToDoList
 
             var connectionString = Configuration["connectionStrings:toDoListDBConnectionString"];
             services.AddDbContext<TasksContext>(o => o.UseSqlServer(connectionString));
-            
+
             services.AddScoped<IToDoListRepository, ToDoListRepository>();
 
         }
@@ -56,6 +56,10 @@ namespace ToDoList
             {
                 cfg.CreateMap<Day, DayDto>();
                 cfg.CreateMap<ToDoItem, ToDoItemDto>();
+                cfg.CreateMap<ToDoItemForCreationDto, ToDoItem>();
+                cfg.CreateMap<ToDoItemForUpdateDto, ToDoItem>();
+                cfg.CreateMap<ToDoItem, ToDoItemForUpdateDto>();
+
             });
 
             app.UseHttpsRedirection();
