@@ -17,11 +17,13 @@ namespace ToDoList.Controllers
             _toDoListRepository = toDoListRepository;
         }
 
-        [HttpGet("{id}",Name = "GetTaskById")]
+        [HttpGet("{dayId}/task/{id}",Name = "GetTaskById")]
         public IActionResult GetTaskById(Guid id)
         {
             var task = _toDoListRepository.GetTask(id);
-            return Ok(task);
+
+            var taskMapped = Mapper.Map<ToDoItemDto>(task);
+            return Ok(taskMapped);
         }
 
         [HttpDelete("{id}")]
