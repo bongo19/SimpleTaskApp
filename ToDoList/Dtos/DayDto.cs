@@ -9,6 +9,6 @@ namespace ToDoList.Dtos
     public class DayDto
     {
         public string TaskDay { get; set; }
-        public ICollection<ToDoItem> Tasks { get; set; } = new List<ToDoItem>();
+        public ICollection<ToDoItemDto> Tasks { get; set; } = new List<ToDoItemDto>();
     }
 }

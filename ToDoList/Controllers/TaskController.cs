@@ -132,12 +132,6 @@ namespace ToDoList.Controllers
             }, taskToReturn);
         }
 
-        [HttpGet]
-        public IActionResult GetAllTasks()
-        {
-            return Ok(_toDoListRepository.GetAllTasks());
-        }
-
 
 
 

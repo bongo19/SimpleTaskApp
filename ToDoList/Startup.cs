@@ -55,7 +55,9 @@ namespace ToDoList
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Day, DayDto>();
+                cfg.CreateMap<Day, DayDto>()
+                .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.ToDoItems));
+            
                 cfg.CreateMap<ToDoItem, ToDoItemDto>()
                 .ForMember(dest => dest.TaskDay, opt => opt.MapFrom(src => src.DayId));
 

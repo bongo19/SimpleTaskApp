@@ -38,7 +38,7 @@ namespace ToDoList.Repositories
 
         public IEnumerable<Day> GetAllDays()
         {
-            return _tasksContext.Days.ToList();
+            return _tasksContext.Days.Include(t => t.ToDoItems).ToList();
         }
 
         public List<ToDoItem> GetAllTasks()

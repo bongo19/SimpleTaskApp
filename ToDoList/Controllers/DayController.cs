@@ -28,7 +28,7 @@ namespace ToDoList.Controllers
             var days = _toDoListRepository.GetAllDays();
             var results = _autoMapperWrapper.Map<IEnumerable<DayDto>>(days);
 
-            return Ok(days);
+            return Ok(results);
         }
 
         [HttpGet("{id}")]
