@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using ToDoList.Dtos;
 using ToDoList.Models;
 using ToDoList.Repositories;
+using ToDoList.Wrappers;
 
 namespace ToDoList.Controllers
 {
@@ -14,17 +15,18 @@ namespace ToDoList.Controllers
     public class DayController : Controller
     {
         private readonly IToDoListRepository _toDoListRepository;
-
-        public DayController(IToDoListRepository toDoListRepository)
+        private readonly IAutoMapperWrapper _autoMapperWrapper;
+        public DayController(IToDoListRepository toDoListRepository,IAutoMapperWrapper autoMapperWrapper)
         {
             _toDoListRepository = toDoListRepository;
+            _autoMapperWrapper = autoMapperWrapper;
         }
 
         [HttpGet]
         public IActionResult GetDays()
         {
             var days = _toDoListRepository.GetAllDays();
-            var results = Mapper.Map<IEnumerable<DayDto>>(days);
+            var results = _autoMapperWrapper.Map<IEnumerable<DayDto>>(days);
 
             return Ok(days);
         }
@@ -33,7 +35,7 @@ namespace ToDoList.Controllers
         public IActionResult GetDay(int id)
         {
             var day = _toDoListRepository.GetDay(id);
-            var results = Mapper.Map<DayDto>(day);
+            var results = _autoMapperWrapper.Map<DayDto>(day);
 
             return Ok(results);
         }
