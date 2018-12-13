@@ -5,6 +5,7 @@ using System;
 using ToDoList.Dtos;
 using ToDoList.Models;
 using ToDoList.Repositories;
+using ToDoList.Wrappers;
 
 namespace ToDoList.Controllers
 {
@@ -12,9 +13,11 @@ namespace ToDoList.Controllers
     public class TaskController : Controller
     {
         private readonly IToDoListRepository _toDoListRepository;
-        public TaskController(IToDoListRepository toDoListRepository)
+        private readonly IAutoMapperWrapper _autoMapperWrapper;
+        public TaskController(IToDoListRepository toDoListRepository, IAutoMapperWrapper autoMapperWrapper)
         {
             _toDoListRepository = toDoListRepository;
+            _autoMapperWrapper = autoMapperWrapper;
         }
 
         [HttpGet("{dayId}/task/{id}",Name = "GetTaskById")]
@@ -22,7 +25,7 @@ namespace ToDoList.Controllers
         {
             var task = _toDoListRepository.GetTask(id);
 
-            var taskMapped = Mapper.Map<ToDoItemDto>(task);
+            var taskMapped = _autoMapperWrapper.Map<ToDoItemDto>(task);
             return Ok(taskMapped);
         }
 
@@ -54,8 +57,8 @@ namespace ToDoList.Controllers
 
             var taskFromEntity = _toDoListRepository.GetTask(id);
 
-            Mapper.Map(toDoItemForUpdate, taskFromEntity);
-
+            _autoMapperWrapper.Map(toDoItemForUpdate, taskFromEntity);
+          
             if (!_toDoListRepository.SaveTask())
             {
                 return StatusCode(500, "A problem occured with updating your task");
@@ -79,7 +82,7 @@ namespace ToDoList.Controllers
                 return BadRequest();
             }
 
-            var taskToPatch = Mapper.Map<ToDoItemForUpdateDto>(patchDocument);
+            var taskToPatch = _autoMapperWrapper.Map<ToDoItemForUpdateDto>(patchDocument);
 
             patchDocument.ApplyTo(taskToPatch, ModelState);
 
@@ -88,7 +91,7 @@ namespace ToDoList.Controllers
                 return BadRequest(ModelState);
             }
 
-            Mapper.Map(taskToPatch, taskFromEntity);
+            _autoMapperWrapper.Map(taskToPatch, taskFromEntity);
 
             if (!_toDoListRepository.SaveTask())
             {
@@ -111,7 +114,7 @@ namespace ToDoList.Controllers
                 return BadRequest(ModelState);
             }
 
-            var taskMapped = Mapper.Map<ToDoItem>(toDoItemForCreationDto);
+            var taskMapped = _autoMapperWrapper.Map<ToDoItem>(toDoItemForCreationDto);
 
             _toDoListRepository.AddTask(dayId, taskMapped);
 
@@ -120,7 +123,7 @@ namespace ToDoList.Controllers
                 return StatusCode(500, "An error occurred while saving your task.");
             }
 
-            var taskToReturn = Mapper.Map<ToDoItemDto>(taskMapped);
+            var taskToReturn = _autoMapperWrapper.Map<ToDoItemDto>(taskMapped);
 
             return CreatedAtRoute("GetTaskById", new
             {

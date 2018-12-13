@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using ToDoList.Dtos;
 using ToDoList.Models;
 using ToDoList.Repositories;
+using ToDoList.Wrappers;
 
 namespace ToDoList
 {
@@ -35,7 +36,7 @@ namespace ToDoList
             services.AddDbContext<TasksContext>(o => o.UseSqlServer(connectionString));
 
             services.AddScoped<IToDoListRepository, ToDoListRepository>();
-
+            services.AddScoped<IAutoMapperWrapper,AutoMapperWrapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
